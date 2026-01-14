@@ -14,7 +14,7 @@
             </div>
         @endif
         <div class="col-12">
-            <h1> @if(isset($service))Editar @else Crear @endif Service </h1>
+            <h1> @if(isset($service))Editar @else Crear @endif Servicios </h1>
         </div>
         <div class="col-12 col-md-6 m-auto mt-4">
            <form action=" @if(isset($service)) {{ route('service.update') }} @else {{ route('service.store') }} @endif " method="post">

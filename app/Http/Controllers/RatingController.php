@@ -17,6 +17,7 @@ class RatingController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             "order_id" => "required|exists:orders,id",
             "score" => "required|integer|min:1|max:5",
@@ -33,14 +34,14 @@ class RatingController extends Controller
             "description.min" => "El campo descripción debe tener mínimo 3 caracteres"
         ]);
         $order = Order::findOrFail($request->order_id);
+        
 
         // Seguridad: solo el dueño del pedido
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }
-
         // Evitar doble valoración
-        if ($order->OrderRatings()->where('user_id', Auth::id())->exists()) {
+        if (Rating::where('order_id',$order->id)->where('user_id',auth()->id())->first()) {
             return back()->with('success', 'Ya has valorado este pedido.');
         }
 
