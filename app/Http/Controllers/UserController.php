@@ -80,8 +80,7 @@ class UserController extends Controller
     {
         $user = User::find($request->id);
         $request->validate([
-            'rol_id' => 'required|exists:roles,id',
-            'name' => 'required|max:250',
+            'rol_id' => UsersHelper::checkAdmin() ? 'required|exists:roles,id' : 'nullable','name' => 'required|max:250',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6|confirmed',
         ]);
